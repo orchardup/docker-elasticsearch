@@ -1,10 +1,10 @@
 FROM charliek/openjdk-jre-7
 MAINTAINER Ben Firshman "ben@orchardup.com"
 
-RUN echo "deb http://packages.elasticsearch.org/elasticsearch/0.90/debian stable main" >> /etc/apt/sources.list
-RUN apt-get -qq update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl
 RUN curl http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
+RUN echo "deb http://packages.elasticsearch.org/elasticsearch/0.90/debian stable main" >> /etc/apt/sources.list
+RUN apt-get -qq update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y elasticsearch
 ADD run /usr/local/bin/run
 RUN chmod +x /usr/local/bin/run
