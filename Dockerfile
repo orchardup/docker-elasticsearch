@@ -1,4 +1,4 @@
-FROM charliek/oracle-jre-7
+FROM charliek/openjdk-jre-7
 MAINTAINER Ben Firshman "ben@orchardup.com"
 
 RUN wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
