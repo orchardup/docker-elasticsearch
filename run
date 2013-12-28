@@ -69,12 +69,6 @@ ES_HOME=/usr/share/$NAME
 # Additional Java OPTS
 #ES_JAVA_OPTS=
 
-# Maximum number of open files
-MAX_OPEN_FILES=65535
-
-# Maximum amount of locked memory
-#MAX_LOCKED_MEMORY=
-
 # ElasticSearch log directory
 LOG_DIR=/var/log/$NAME
 
@@ -128,11 +122,6 @@ checkJava() {
 
 checkJava
 
-if [ -n "$MAX_LOCKED_MEMORY" -a -z "$ES_HEAP_SIZE" ]; then
-    log_failure_msg "MAX_LOCKED_MEMORY is set - ES_HEAP_SIZE must also be set"
-    exit 1
-fi
-
 log_daemon_msg "Starting $DESC"
 
 pid=`pidofproc -p $PID_FILE elasticsearch`
@@ -145,14 +134,6 @@ fi
 # Prepare environment
 mkdir -p "$LOG_DIR" "$DATA_DIR" "$WORK_DIR" && chown "$ES_USER":"$ES_GROUP" "$LOG_DIR" "$DATA_DIR" "$WORK_DIR"
 touch "$PID_FILE" && chown "$ES_USER":"$ES_GROUP" "$PID_FILE"
-
-if [ -n "$MAX_OPEN_FILES" ]; then
-    ulimit -n $MAX_OPEN_FILES
-fi
-
-if [ -n "$MAX_LOCKED_MEMORY" ]; then
-    ulimit -l $MAX_LOCKED_MEMORY
-fi
 
 if [ -n "$MAX_MAP_COUNT" ]; then
     sysctl -q -w vm.max_map_count=$MAX_MAP_COUNT
